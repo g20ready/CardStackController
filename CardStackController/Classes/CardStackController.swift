@@ -9,7 +9,7 @@ import UIKit
 
 public class CardStackController: UIViewController {
     
-    public typealias CompletionBlock = (Void) -> ()
+    public typealias CompletionBlock = () -> Void
 
     fileprivate struct CardStackControllerPalette {
         static let backgroundColor = UIColor.black.withAlphaComponent(0.4)
@@ -208,7 +208,7 @@ public class CardStackController: UIViewController {
         anim.toValue = NSValue(caTransform3D: finalTransform)
         anim.duration = 0.4
         anim.timingFunction = CAMediaTimingFunction(controlPoints: 0.1, 0.5, 0.5, 1)
-        anim.fillMode = kCAFillModeForwards
+        anim.fillMode = CAMediaTimingFillMode.forwards
         anim.isRemovedOnCompletion = false
         viewController.view.layer.add(anim, forKey: "transform")
     }
@@ -233,10 +233,10 @@ public class CardStackController: UIViewController {
 
     fileprivate func addChild(viewController newController: UIViewController, containerView: UIView, fakeViewBackgroundColor: UIColor?) {
         viewControllers.append(newController)
-        addChildViewController(newController)
+        addChild(newController)
         containerView.addSubview(newController.view)
         addFakeBottomView(underneath: newController.view, with: fakeViewBackgroundColor)
-        newController.didMove(toParentViewController: self)
+        newController.didMove(toParent: self)
     }
 
     fileprivate func attach(view aView: UIView, toAnchorPoint anchorPoint: CGPoint) {
@@ -366,7 +366,7 @@ public class CardStackController: UIViewController {
         anim.toValue = NSValue(caTransform3D: CATransform3DIdentity)
         anim.duration = duration
         anim.timingFunction = CAMediaTimingFunction(controlPoints: 0.1, 0.5, 0.5, 1)
-        anim.fillMode = kCAFillModeForwards
+        anim.fillMode = CAMediaTimingFillMode.forwards
         anim.isRemovedOnCompletion = false
         viewController.view.layer.add(anim, forKey: "transformBack")
     }
@@ -422,10 +422,10 @@ public class CardStackController: UIViewController {
         guard let viewController = topViewController,
             let currentBehaviour = attachmentBehaviors.last,
             let viewControllerSuperview = viewController.view.superview else { return }
-        viewController.willMove(toParentViewController: nil)
+        viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
         viewControllerSuperview.removeFromSuperview()
-        viewController.removeFromParentViewController()
+        viewController.removeFromParent()
         viewControllers.removeLast()
         animator.removeBehavior(currentBehaviour)
         attachmentBehaviors.removeLast()
@@ -439,7 +439,8 @@ public class CardStackController: UIViewController {
         animator.removeBehavior(dynamicItemBehavior)
         animator.removeBehavior(collisionBehavior)
         guard automaticallyDismiss else { return }
-        dismiss(animated: false) { finished in
+        
+        dismiss(animated: false) {
             self.delegate?.didFinishDismissingCardController?()
         }
     }

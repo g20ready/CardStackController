@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE.txt' }
   s.author       = { 'Victor Baro' => 'fs.baro@gmail.com' }
   s.source       = { :git => "https://github.com/jobandtalent/CardStackController.git", :tag => "#{s.version}" }
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
+  s.swift_versions = ['4.2']
   s.source_files = 'CardStackController/Classes/**/*'
 end
