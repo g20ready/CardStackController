@@ -71,7 +71,7 @@ public class CardStackController: UIViewController {
     ///
     /// *Default value*: 5
     public var frequency: CGFloat = 5
-
+    
     public weak var delegate: CardStackControllerDelegate?
 
     public var numberOfCards: Int {
@@ -112,7 +112,7 @@ public class CardStackController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
@@ -123,7 +123,7 @@ public class CardStackController: UIViewController {
         }
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
 
         guard isBeingPresented else { return }
@@ -133,7 +133,7 @@ public class CardStackController: UIViewController {
         imageView.pinEdgesToSuperviewEdges()
     }
 
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         viewControllers.filter { $0.view.layer.mask != nil }
@@ -170,7 +170,13 @@ public class CardStackController: UIViewController {
     ///   - isDraggable: the user can drag the card vertically. *Default value is true*
     ///   - bottomBackgroundColor: CardController adds a fake view below each card. Set a desired color. *Default value is the same as the viewcontroller background to be presented*
     ///   - completion: completion block called after the card is presented (stacked)
-    public func stack(viewController newController: UIViewController, withSize size: CGSize = .zero, withRoundedTopCorners roundedCorners: Bool = true, draggable isDraggable: Bool = true, bottomBackgroundColor: UIColor? = nil, completion: CompletionBlock? = nil) {
+    public func stack(viewController newController: UIViewController,
+                      withSize size: CGSize = .zero,
+                      withRoundedTopCorners roundedCorners: Bool = true,
+                      draggable isDraggable: Bool = true,
+                      bottomBackgroundColor: UIColor? = nil,
+                      completion: CompletionBlock? = nil)
+    {
         if viewControllers.isEmpty { rootViewController = newController }
         panGestureRecognizer.isEnabled = isDraggable
         stackCompletionBlock = completion
