@@ -7,7 +7,7 @@ import UIKit
     @objc optional func didFinishDismissingCardController()
 }
 
-public class CardStackController: UIViewController {
+open class CardStackController: UIViewController {
     
     public typealias CompletionBlock = () -> Void
 
